@@ -1,12 +1,20 @@
 <?php
+  session_start();
   $mode = "input";
 
   if( isset($_POST['back']) && $_POST['back']) {
     // 何もしない
   } else if( isset($_POST['confirm']) && $_POST['confirm']) {
+
+    $_SESSION['name'] = $_POST['name'];
+    $_SESSION['email'] = $_POST['email'];
+    $_SESSION['message'] = $_POST['message'];
+
     $mode = "confirm";
-  }else if ( isset($_POST['send']) && $_POST['send']) {
+  } else if ( isset($_POST['send']) && $_POST['send']) {
     $mode = "send";
+  } else {
+    $_SESSION = [];
   }
 ?>
 <!DOCTYPE html>
@@ -44,15 +52,15 @@
    <form action="index.php" method="POST">
       <div class="mb-3">
         <label for="name" class="form-label">名前</label>
-        <input type="text" name="name" id="name" class="form-control" value="<?php echo $_POST['name'] ?>">
+        <input type="text" name="name" id="name" class="form-control" value="<?php echo $_SESSION['name'] ?>">
       </div>
       <div class="mb-3">
         <label for="email">メールアドレス</label>
-        <input type="email" id="email" name="email" class="form-control" value="<?php echo $_POST['email'] ?>">
+        <input type="email" id="email" name="email" class="form-control" value="<?php echo $_SESSION['email'] ?>">
       </div>
       <div class="mb-3">
         <label for="message">本文</label>
-        <textarea name="message" id="message" cols="30" rows="10" class="form-control"><?php echo $_POST['message']?></textarea>
+        <textarea name="message" id="message" cols="30" rows="10" class="form-control"><?php echo $_SESSION['message']?></textarea>
       </div>
       <button type="submit" class="btn btn-primary" name="send">送信</button>
       <button type="submit" class="btn btn-danger" name="back">戻る</button>
