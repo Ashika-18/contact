@@ -1,5 +1,14 @@
 <?php
-  session_start();
+  // セッションを開始
+session_start();
+
+// セッションが正常に開始されたかどうかを確認
+if (session_status() == PHP_SESSION_ACTIVE) {
+    echo "セッションが正常に開始されました";
+} else {
+    echo "セッションの開始に問題がありました";
+}
+
   $mode = "input";
 
   if( isset($_POST['back']) && $_POST['back']) {
@@ -45,7 +54,7 @@
         <label for="message">本文</label>
         <textarea name="message" id="message" cols="30" rows="10" class="form-control"></textarea>
       </div>
-      <button type="submit" class="btn btn-primary" name="confirm">確認</button>
+      <input class="btn btn-primary" type="submit" name="confirm" value="確認">
     </form>  
   <?php } else if( $mode == "confirm") { ?>
     <!-- 確認画面 -->
