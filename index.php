@@ -2,6 +2,17 @@
   // セッションを開始
 session_start();
 
+  // セッション変数がセットされていない場合にデフォルトの値を設定
+  if (!isset($_SESSION['name'])) {
+    $_SESSION['name'] = "";
+  }
+  if (!isset($_SESSION['email'])) {
+    $_SESSION['email'] = "";
+  }
+  if (!isset($_SESSION['message'])) {
+    $_SESSION['message'] = "";
+  }
+
 // セッションが正常に開始されたかどうかを確認
 if (session_status() == PHP_SESSION_ACTIVE) {
     echo "セッションが正常に開始されました";
@@ -44,8 +55,7 @@ if (session_status() == PHP_SESSION_ACTIVE) {
     <form action="index.php" method="POST">
       <div class="mb-3">
         <label for="name" class="form-label">名前</label>
-        <input type="text" name="name" id="name" class="form-control">
-        <input type="text" name="name" id="name" class="form-control" value="">
+        <input type="text" name="name" id="name" class="form-control" value="<?php echo isset($_SESSION['name']) ? $_SESSION['name'] : '' ?>">
       </div>
       <div class="mb-3">
         <label for="email">メールアドレス</label>
