@@ -51,6 +51,7 @@ if (session_status() == PHP_SESSION_ACTIVE) {
 </head>
 <body>
   <?php if( $mode == "input") { ?>
+    <h1 style="color: blue">入力画面</h1>
     <!-- 入力画面 -->
     <form action="index.php" method="POST">
       <div class="mb-3">
@@ -59,15 +60,16 @@ if (session_status() == PHP_SESSION_ACTIVE) {
       </div>
       <div class="mb-3">
         <label for="email">メールアドレス</label>
-        <input type="email" id="email" name="email" class="form-control">
+        <input type="email" id="email" name="email" class="form-control" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : '' ?>">
       </div>
       <div class="mb-3">
         <label for="message">本文</label>
-        <textarea name="message" id="message" cols="30" rows="10" class="form-control"></textarea>
+        <textarea name="message" id="message" cols="30" rows="10" class="form-control"><?php echo isset($_SESSION['message']) ? $_SESSION['message'] : '' ?></textarea>
       </div>
       <input class="btn btn-primary" type="submit" name="confirm" value="確認">
     </form>  
   <?php } else if( $mode == "confirm") { ?>
+    <h1 style="color: green">確認画面</h1>
     <!-- 確認画面 -->
    <form action="index.php" method="POST">
       <div class="mb-3">
