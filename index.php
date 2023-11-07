@@ -45,6 +45,7 @@ if (session_status() == PHP_SESSION_ACTIVE) {
       <div class="mb-3">
         <label for="name" class="form-label">名前</label>
         <input type="text" name="name" id="name" class="form-control">
+        <input type="text" name="name" id="name" class="form-control" value="">
       </div>
       <div class="mb-3">
         <label for="email">メールアドレス</label>
