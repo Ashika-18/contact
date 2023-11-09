@@ -3,22 +3,22 @@
 session_start();
 
   // セッション変数がセットされていない場合にデフォルトの値を設定
-  if (!isset($_SESSION['name'])) {
-    $_SESSION['name'] = "";
-  }
-  if (!isset($_SESSION['email'])) {
-    $_SESSION['email'] = "";
-  }
-  if (!isset($_SESSION['message'])) {
-    $_SESSION['message'] = "";
-  }
+  // if (!isset($_SESSION['name'])) {
+  //   $_SESSION['name'] = "";
+  // }
+  // if (!isset($_SESSION['email'])) {
+  //   $_SESSION['email'] = "";
+  // }
+  // if (!isset($_SESSION['message'])) {
+  //   $_SESSION['message'] = "";
+  // }
 
-// セッションが正常に開始されたかどうかを確認
-if (session_status() == PHP_SESSION_ACTIVE) {
-    echo "セッションが正常に開始されました";
-} else {
-    echo "セッションの開始に問題がありました";
-}
+  // セッションが正常に開始されたかどうかを確認
+  if (session_status() == PHP_SESSION_ACTIVE) {
+      echo "セッションが正常に開始されました";
+  } else {
+      echo "セッションの開始に問題がありました";
+  }
 
   $mode = "input";
 
@@ -34,7 +34,7 @@ if (session_status() == PHP_SESSION_ACTIVE) {
   } else if ( isset($_POST['send']) && $_POST['send']) {
     $mode = "send";
   } else {
-    $_SESSION = [];
+    $_SESSION = array();
   }
 ?>
 <!DOCTYPE html>
@@ -51,6 +51,7 @@ if (session_status() == PHP_SESSION_ACTIVE) {
 </head>
 <body>
   <?php if( $mode == "input") { ?>
+    <p><?php echo "-今のmodeは($mode)やでぇ-"; ?></p>
     <h1 style="color: blue">入力画面</h1>
     <!-- 入力画面 -->
     <form action="index.php" method="POST">
@@ -69,6 +70,7 @@ if (session_status() == PHP_SESSION_ACTIVE) {
       <input class="btn btn-primary" type="submit" name="confirm" value="確認">
     </form>  
   <?php } else if( $mode == "confirm") { ?>
+    <p><?php echo "-今のmodeは($mode)やでぇ-"; ?></p>
     <h1 style="color: green">確認画面</h1>
     <!-- 確認画面 -->
    <form action="index.php" method="POST">
@@ -84,11 +86,14 @@ if (session_status() == PHP_SESSION_ACTIVE) {
         <label for="message">本文</label>
         <textarea name="message" id="message" cols="30" rows="10" class="form-control"><?php echo $_SESSION['message']?></textarea>
       </div>
-      <button type="submit" class="btn btn-primary" name="send">送信</button>
-      <button type="submit" class="btn btn-danger" name="back">戻る</button>
+      <input class="btn btn-primary" type="submit" name="send" value="送信">
+      <input class="btn btn-danger" type="submit" name="back"  value="戻る">
     </form>
   <?php } else { ?>
+    <p><?php echo "-今のmodeは($mode)やでぇ-"; ?></p>
     <!-- 完了画面 -->
+    <h1 style="color: red">送信完了しました</h1>
+    <button class="btn-primary" type="button" onclick="location.href='index.php'">HOMEへ</button>
   <?php } ?>
 </body>
 </html>
