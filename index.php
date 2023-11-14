@@ -2,17 +2,6 @@
   // セッションを開始
 session_start();
 
-  // セッション変数がセットされていない場合にデフォルトの値を設定
-  // if (!isset($_SESSION['name'])) {
-  //   $_SESSION['name'] = "";
-  // }
-  // if (!isset($_SESSION['email'])) {
-  //   $_SESSION['email'] = "";
-  // }
-  // if (!isset($_SESSION['message'])) {
-  //   $_SESSION['message'] = "";
-  // }
-
   // セッションが正常に開始されたかどうかを確認
   if (session_status() == PHP_SESSION_ACTIVE) {
       echo "セッションが正常に開始されました";
