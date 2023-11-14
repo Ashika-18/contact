@@ -9,7 +9,12 @@ session_start();
       echo "セッションの開始に問題がありました";
   }
 
+  function h($str) {
+    return htmlspecialchars($str, ENT_QUOTES, "UTF-8");
+  }
+  
   $mode = "input";
+  $errmessage = [];
 
   if( isset($_POST['back']) && $_POST['back']) {
     // 何もしない
@@ -21,9 +26,17 @@ session_start();
 
     $mode = "confirm";
   } else if ( isset($_POST['send']) && $_POST['send']) {
+    $message = "お問い合わせを受け付けました。\r\n"
+            . "名前" . $_SESSION["name"] . "\r\n"
+            . "email" . $_SESSION["email"] . "\r\n"
+            . "お問い合わせ内容:\r\n"
+            . preg_replace("/\r\n|\r|\n/", "\r\n", $_SESSION['message'] );
+    mail($_SESSION['email'], "お問い合わせありがとうございます。", $message);
+    mail("ashibasama@yahoo.co.jp", "お問い合わせありがとうございます。", $message);
+    $_SESSION = [];
     $mode = "send";
   } else {
-    $_SESSION = array();
+    $_SESSION = [];
   }
 ?>
 <!DOCTYPE html>
