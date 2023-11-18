@@ -27,7 +27,7 @@
       } else if( mb_strlen($_POST['message']) > 500 ){
           $errmessage[] = "お問い合わせ内容は500文字以内にしてください";
       }
-      $_SESSION['message'] = htmlspecialchars($_POST['message'], ENT_QUOTES);
+      $_SESSION['message'] = $_POST['message'];
 
       if( $errmessage ){
         $mode = 'input';
@@ -87,6 +87,7 @@
   <?php } else { ?>
     <!-- 完了画面 -->
     送信しました。お問い合わせありがとうございました。<br>
+    <button class="btn-primary" type="button" onclick="location.href='contact.php'">HOMEへ</button>
   <?php } ?>
 </body>
 </html>

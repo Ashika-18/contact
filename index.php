@@ -3,7 +3,7 @@
 session_start();
 
   // セッションが正常に開始されたかどうかを確認
-  if (session_status() == PHP_SESSION_ACTIVE) {
+  if (session_status() === PHP_SESSION_ACTIVE) {
       echo "セッションが正常に開始されました";
   } else {
       echo "セッションの開始に問題がありました";
@@ -19,20 +19,43 @@ session_start();
   if( isset($_POST['back']) && $_POST['back']) {
     // 何もしない
   } else if( isset($_POST['confirm']) && $_POST['confirm']) {
+    
+    if ( !$_POST['name']) {
+      $errmessage[] = "名前を入力して下さい";
+    } else if (mb_strlen($_POST['name']) > 20) {
+      $errmessage[] = "名前は20文字以内にして下さい";
+    }
+    $_SESSION['name'] = h($_POST['name']);
 
-    $_SESSION['name'] = $_POST['name'];
-    $_SESSION['email'] = $_POST['email'];
-    $_SESSION['message'] = $_POST['message'];
+    if (!$_POST['email']) {
+      $errmessage[] = "メールアドレスを入力して下さい";
+    } else if (mb_strlen($_POST['email']) > 30) {
+      $errmessage[] = "メールアドレスは30文字以内にして下さい";
+    } else if ( !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+      $errmessage[] = "メールアドレスが不正です。";
+    }
+    $_SESSION['email'] = h($_POST['email']);
 
-    $mode = "confirm";
+    if (!$_POST['message']) {
+      $errmessage[] = "お問い合わせ内容を入力して下さい。";
+    } else if (mb_strlen($_POST['message']) > 200) {
+      $errmessage[] = "お問い合わせ内容は200文字以内で入力して下さい。";
+    }
+    $_SESSION['message'] = h($_POST['message']);
+
+    if( $errmessage ){	
+      $mode = 'input';	
+    } else {	
+    $mode = 'confirm';	
+    }
   } else if ( isset($_POST['send']) && $_POST['send']) {
     $message = "お問い合わせを受け付けました。\r\n"
             . "名前" . $_SESSION["name"] . "\r\n"
             . "email" . $_SESSION["email"] . "\r\n"
             . "お問い合わせ内容:\r\n"
             . preg_replace("/\r\n|\r|\n/", "\r\n", $_SESSION['message'] );
-    mail($_SESSION['email'], "お問い合わせありがとうございます。", $message);
-    mail("ashibasama@yahoo.co.jp", "お問い合わせありがとうございます。", $message);
+    mail($_SESSION['email'], 'お問い合わせありがとうございます。', $message);
+    mail('ashibasama@yahoo.co.jp', 'お問い合わせありがとうございます。', $message);
     $_SESSION = [];
     $mode = "send";
   } else {
@@ -54,8 +77,16 @@ session_start();
 <body>
   <?php if( $mode == "input") { ?>
     <p><?php echo "-今のmodeは($mode)やでぇ-"; ?></p>
+    <!-- <script>alert('攻撃対象です');</script> -->
     <h1 style="color: blue">入力画面</h1>
     <!-- 入力画面 -->
+    <?php
+      if($errmessage) {
+        echo '<div style="color: red;">';
+        echo implode('<br>', $errmessage);
+        echo '</div>';
+      }
+    ?>
     <form action="index.php" method="POST">
       <div class="mb-3">
         <label for="name" class="form-label">名前</label>
