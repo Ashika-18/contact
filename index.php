@@ -9,6 +9,15 @@ session_start();
       echo "セッションの開始に問題がありました";
   }
 
+  // ワンタイムトークン生成
+  if ( !isset($_SESSION['csrf_token'])) {
+  $token_byte = openssl_random_pseudo_bytes(16);
+  $csrf_token = bin2hex($token_byte);
+
+  // トークンをセッションに保存
+  $_SESSION['csrf_token'] = $csrf_token;
+  }
+
   function h($str) {
     return htmlspecialchars($str, ENT_QUOTES, "UTF-8");
   }
@@ -17,7 +26,7 @@ session_start();
   $errmessage = [];
 
   if( isset($_POST['back']) && $_POST['back']) {
-    // 何もしない
+  //何もしない
   } else if( isset($_POST['confirm']) && $_POST['confirm']) {
     
     if ( !$_POST['name']) {
@@ -88,6 +97,7 @@ session_start();
       }
     ?>
     <form action="index.php" method="POST">
+      <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>" />
       <div class="mb-3">
         <label for="name" class="form-label">名前</label>
         <input type="text" name="name" id="name" class="form-control" value="<?php echo isset($_SESSION['name']) ? $_SESSION['name'] : '' ?>">
@@ -106,7 +116,14 @@ session_start();
     <p><?php echo "-今のmodeは($mode)やでぇ-"; ?></p>
     <h1 style="color: green">確認画面</h1>
     <!-- 確認画面 -->
+    <?php if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+  // トークンが一致しなかった場合
+  echo "セッションです{$_SESSION['csrf_token']}<br>";
+  echo "ポスト通信です{$_POST['csrf_token']}<br>";
+  die('お問い合わせの送信に失敗しました');
+} ?>
    <form action="index.php" method="POST">
+   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
       <div class="mb-3">
         <label for="name" class="form-label">名前</label>
         <input type="text" name="name" id="name" class="form-control" value="<?php echo $_SESSION['name'] ?>">
