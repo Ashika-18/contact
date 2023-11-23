@@ -96,14 +96,17 @@ session_start();
     ?>
     <form action="index.php" method="POST">
       <input type="hidden" name="token" value="<?php echo $token; ?>" />
-      <div class="mb-3 row">
-        <input type="text" name="name" id="name" class="form-control col" placeholder="名前(必須)" value="<?php echo isset($_SESSION['name']) ? $_SESSION['name'] : '' ?>">
+      <div class="mb-3">
+        <label for="name" class="form-label">名前</label>
+        <input type="text" name="name" id="name" class="form-control" value="<?php echo isset($_SESSION['name']) ? $_SESSION['name'] : '' ?>">
       </div>
-      <div class="mb-3 row">
-        <input type="email" id="email" name="email" class="form-control col" placeholder="メールアドレス(必須)" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : '' ?>">
+      <div class="mb-3">
+        <label for="email">メールアドレス</label>
+        <input type="email" id="email" name="email" class="form-control" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : '' ?>">
       </div>
-      <div class="mb-3 row">
-        <textarea name="message" id="message" cols="30" rows="10" class="form-control col" placeholder="メッセージを入力して下さい(必須)"><?php echo isset($_SESSION['message']) ? $_SESSION['message'] : '' ?></textarea>
+      <div class="mb-3">
+        <label for="message">本文</label>
+        <textarea name="message" id="message" cols="30" rows="10" class="form-control"><?php echo isset($_SESSION['message']) ? $_SESSION['message'] : '' ?></textarea>
       </div>
       <input class="btn btn-primary" type="submit" name="confirm" value="確認">
     </form>  

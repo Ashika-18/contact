@@ -2,6 +2,12 @@
   session_start();
   $mode = 'input';
   $errmessage = array();
+
+  //サニタイズ関数
+  function h($str) {
+  return htmlspecialchars($str, ENT_QUOTES, "UTF-8"); 
+  }
+
   if( isset($_POST['back']) && $_POST['back'] ){
     // 何もしない
   } else if( isset($_POST['confirm']) && $_POST['confirm'] ){
@@ -11,7 +17,7 @@
     } else if( mb_strlen($_POST['fullname']) > 100 ){
         $errmessage[] = "名前は100文字以内にしてください";
     }
-      $_SESSION['fullname'] = htmlspecialchars($_POST['fullname'], ENT_QUOTES);
+      $_SESSION['fullname'] = h($_POST['fullname']);
 
       if( !$_POST['email'] ) {
           $errmessage[] = "Eメールを入力してください";
@@ -20,14 +26,14 @@
     } else if( !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) ){
         $errmessage[] = "メールアドレスが不正です";
       }
-      $_SESSION['email']    = htmlspecialchars($_POST['email'], ENT_QUOTES);
+      $_SESSION['email']    = h($_POST['email']);
 
       if( !$_POST['message'] ){
           $errmessage[] = "お問い合わせ内容を入力してください";
       } else if( mb_strlen($_POST['message']) > 500 ){
           $errmessage[] = "お問い合わせ内容は500文字以内にしてください";
       }
-      $_SESSION['message'] = $_POST['message'];
+      $_SESSION['message'] = h($_POST['message']);
 
       if( $errmessage ){
         $mode = 'input';

@@ -1,9 +1,9 @@
 <?php
-$to = 'ashibasama@gmail.com'; // 宛先
+$to = ''; // 宛先
 $subject = 'テストメール'; // 件名
 $message = 'test=123456789-<>これはテストである'; // 本文
-$headers = 'From: ashibasama@gmail.com' . "\r\n" .
-           'Reply-To: ashibasama@gmail.com' . "\r\n" .
+$headers = '' . "\r\n" .
+           'Reply-To: ' . "\r\n" .
            'X-Mailer: PHP/' . phpversion(); // メールヘッダー
 
 // メールを送信する
