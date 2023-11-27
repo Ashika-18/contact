@@ -79,13 +79,14 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/earlyaccess/kokoro.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.css" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="./css/reset.css"> -->
+    <link rel="stylesheet" href="./stylesheets/reset.css">
     <link rel="stylesheet" href="./stylesheets/style.css">
     <title>問い合わせフォーム</title>
+  
 </head>
 <body>
   <?php if( $mode == "input") { ?>
-    <h1 style="color: blue">入力画面</h1>
+    <h1 class="text-center fs-1 mt-2 mb-2" style="color: blue">お問い合わせ</h1>
     <!-- 入力画面 -->
     <?php
       if($errmessage) {
@@ -96,34 +97,40 @@ session_start();
     ?>
     <form action="index.php" method="POST">
       <input type="hidden" name="token" value="<?php echo $token; ?>" />
-      <div class="mb-3 row">
-        <input type="text" name="name" id="name" class="form-control col" placeholder="名前(必須)" value="<?php echo isset($_SESSION['name']) ? $_SESSION['name'] : '' ?>">
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-gradient bg-primary">お名前</span>
+        <input type="text" name="name" id="name" class="form-control " placeholder="(必須)" value="<?php echo isset($_SESSION['name']) ? $_SESSION['name'] : '' ?>">
       </div>
-      <div class="mb-3 row">
-        <input type="email" id="email" name="email" class="form-control col" placeholder="メールアドレス(必須)" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : '' ?>">
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-gradient bg-primary">メール</span>
+        <input type="email" id="email" name="email" class="form-control " placeholder="(必須)" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : '' ?>">
       </div>
-      <div class="mb-3 row">
-        <textarea name="message" id="message" cols="30" rows="10" class="form-control col" placeholder="メッセージを入力して下さい(必須)"><?php echo isset($_SESSION['message']) ? $_SESSION['message'] : '' ?></textarea>
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-gradient bg-primary">本　文</span>
+        <textarea name="message" id="message" cols="30" rows="10" class="form-control " placeholder="(必須)"><?php echo isset($_SESSION['message']) ? $_SESSION['message'] : '' ?></textarea>
       </div>
       <input class="btn btn-primary" type="submit" name="confirm" value="確認">
     </form>  
   <?php } else if( $mode == "confirm") { ?>
-    <h1 style="color: green">確認画面</h1>
+    <h1 class="text-center fs-1 mt-2 mb-2" style="color: green">確認画面</h1>
     <!-- 確認画面 -->
-   
+    <p class="mb-2">以下の内容で送信します。</p>
    <form action="index.php" method="POST">
    <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-      <div class="mb-3">
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-gradient bg-success">お名前</span>
         <div class="form-control">
           <?php echo $_SESSION['name']; ?>
         </div>
       </div>
-      <div class="mb-3">
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-gradient bg-success">メール</span>
         <div class="form-control">
           <?php echo $_SESSION['email']; ?>
         </div>
       </div>
-      <div class="mb-3">
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-gradient bg-success">本文</span>
         <div class="form-control">
           <?php echo $_SESSION['message']; ?>
         </div>
@@ -133,8 +140,10 @@ session_start();
     </form>
   <?php } else { ?>
     <!-- 完了画面 -->
-    <h1 style="color: red">送信完了しました</h1>
-    <button class="btn-primary" type="button" onclick="location.href='index.php'">HOMEへ</button>
+    <h1 class="fs-1 text-center mt-2 mb-2">送信完了しました</h1>
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn btn-info" type="button" onclick="location.href='index.php'">HOMEへ</button>
+    </div>
   <?php } ?>
 </body>
 </html>
