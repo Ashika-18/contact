@@ -37,6 +37,11 @@ session_start();
     }
     $_SESSION['message'] = h($_POST['message']);
 
+    if (!isset($_POST['check']) || !$_POST['check']) {
+      $errmessage[] = "個人情報利用の同意が必要です。";
+    }
+  
+
     if( $errmessage ){	
       $mode = 'input';	
     } else {	
@@ -108,6 +113,10 @@ session_start();
       <div class="input-group mb-3">
         <span class="input-group-text bg-gradient bg-primary">本　文</span>
         <textarea name="message" id="message" cols="30" rows="10" class="form-control " placeholder="(必須)"><?php echo isset($_SESSION['message']) ? $_SESSION['message'] : '' ?></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="check">個人情報利用同意 [必須]</label>
+        <input id="check" type="checkbox" name="check">
       </div>
       <input class="btn btn-primary" type="submit" name="confirm" value="確認">
     </form>  
